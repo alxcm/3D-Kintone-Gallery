@@ -59,13 +59,13 @@ import getRecords from './requests/getRecords.js';
         var randomColor = THREE.MathUtils.randInt(0, 0xffffff)
         console.log('torus found... building...');
         //Create the wireframe
-        const donutGeometry = new THREE.TorusGeometry(Number(length), Number(width), Number(depth), 100);
+        const torusGeometry = new THREE.TorusGeometry(Number(length), Number(width), Number(depth), 100);
         //Create a flat color skin of a random color
-        const donutMaterial = new THREE.MeshStandardMaterial({
+        const torusMaterial = new THREE.MeshStandardMaterial({
           color: randomColor,
         });
         //Combine them
-        const torus = new THREE.Mesh(donutGeometry, donutMaterial);
+        const torus = new THREE.Mesh(torusGeometry, torusMaterial);
         //Position it randomly
         torus.position.x = Math.random() * 70 - 5;
         torus.position.y = Math.random() * 30 - 5;
