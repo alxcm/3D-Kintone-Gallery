@@ -30,9 +30,9 @@ import getRecords from './requests/getRecords.js';
 
       const makeCube = (shape) => {
         //Extract the values
-        let length = shape.length;
-        let width = shape.width;
-        let depth = shape.depth;
+        let length = Number(shape.length);
+        let width = Number(shape.width);
+        let depth = Number(shape.depth);
         //Choose a random color
         var randomColor = THREE.MathUtils.randInt(0, 0xffffff)
         console.log('cube found... building...');
@@ -58,9 +58,9 @@ import getRecords from './requests/getRecords.js';
 
       const makeTorus = (shape) => {
         //Extract the values
-        let length = shape.length;
-        let width = shape.width;
-        let depth = shape.depth;
+        let length = Number(shape.length);
+        let width = Number(shape.width);
+        let depth = Number(shape.depth);
         //Choose a random color
         var randomColor = THREE.MathUtils.randInt(0, 0xffffff)
         console.log('torus found... building...');
