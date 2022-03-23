@@ -27,8 +27,6 @@ import getRecords from './requests/getRecords.js';
       const mountRef = useRef(null);
       // The Renderer, which calculates how to display our viewpoint, and the shapes.
       var renderer = new THREE.WebGLRenderer();
-      // Add it to the DOM
-      mountRef.current.appendChild(renderer.domElement);
 
       const makeCube = (shape) => {
         //Extract the values
@@ -81,6 +79,9 @@ import getRecords from './requests/getRecords.js';
         return (torus);
       }
       useEffect(() => {
+        // Add it to the DOM
+        mountRef.current.appendChild(renderer.domElement);
+
         // The Scene, our canvas to display our 3D space.
         var scene = new THREE.Scene();
 
