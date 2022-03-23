@@ -25,10 +25,16 @@ import getRecords from './requests/getRecords.js';
 
       // Three takes some time to load in. We create a "ref" in advance to tell react / browsers that our canvas will show up here.
       const mountRef = useRef(null);
+      // The Renderer, which calculates how to display our viewpoint, and the shapes.
+      var renderer = new THREE.WebGLRenderer();
+      // Add it to the DOM
+      mountRef.current.appendChild(renderer.domElement);
 
       const makeCube = (shape) => {
         //Extract the values
-        let { shapeType, key, length, width, depth } = shape;
+        let length = shape.length;
+        let width = shape.width;
+        let depth = shape.depth;
         //Choose a random color
         var randomColor = THREE.MathUtils.randInt(0, 0xffffff)
         console.log('cube found... building...');
@@ -54,7 +60,9 @@ import getRecords from './requests/getRecords.js';
 
       const makeTorus = (shape) => {
         //Extract the values
-        let { shapeType, key, length, width, depth } = shape;
+        let length = shape.length;
+        let width = shape.width;
+        let depth = shape.depth;
         //Choose a random color
         var randomColor = THREE.MathUtils.randInt(0, 0xffffff)
         console.log('torus found... building...');
@@ -75,18 +83,25 @@ import getRecords from './requests/getRecords.js';
       useEffect(() => {
         // The Scene, our canvas to display our 3D space.
         var scene = new THREE.Scene();
+
+        // A cool space background for our scene
         const spaceBackground = new THREE.TextureLoader().load('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTN8fHxlbnwwfHx8fA%3D%3D&w=1000&q=80');
         scene.background = spaceBackground;
+
         // The Camera, our viewpoint in the 3D space.
-        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        // The Renderer, which calculates how to display our viewpoint, and the shapes.
-        var renderer = new THREE.WebGLRenderer();
+        var camera = new THREE.PerspectiveCamera(
+          75, // Camera Field of View (FOV)
+          window.innerWidth / window.innerHeight, // aspect — Camera frustum aspect ratio.
+          0.1, //near — Camera frustum near plane.
+          1000 //far — Camera frustum far plane.
+        );
+
         // Set the viewport size to the width and length of our window.
         renderer.setSize(window.innerWidth, window.innerHeight);
-        // Add it to the DOM
-        mountRef.current.appendChild(renderer.domElement);
+
         // Move our camera out a bit.
         camera.position.z = 70;
+
         // add a global light
         const light = new THREE.AmbientLight(0x404040); // soft white light
         scene.add(light);
@@ -147,7 +162,7 @@ import getRecords from './requests/getRecords.js';
         window.addEventListener("resize", onWindowResize, false);
         // Animate gets called by useEffect on page load.
         animate();
-        // Free up memory space when we change pages away.
+        // Free up memory space when we change pages away <- A react best practice for "Single Page Apps"
         return () => mountRef.current.removeChild(renderer.domElement);
       }, []);
 
@@ -159,6 +174,7 @@ import getRecords from './requests/getRecords.js';
     }
 
     ReactDOM.render(
+      // React StrictMode activates additional checks useful for debugging. Ignored in production builds!
       <React.StrictMode >
         <App />
       </React.StrictMode>,
