@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { useState, useEffect, useRef } from "react";
-import * as THREE from "three";
+import { useState, useEffect, useRef } from 'react';
+import * as THREE from 'three';
 import './index.css';
 import getRecords from './requests/getRecords.js';
 
@@ -87,7 +87,7 @@ import getRecords from './requests/getRecords.js';
           result => {
             //For each shape record
             result.forEach(shape => {
-              //Extract the values of our shape from our API call
+              // extract the values of our shape from our API call
               let length = Number(shape.length);
               let width = Number(shape.width);
               let depth = Number(shape.depth);
@@ -98,15 +98,15 @@ import getRecords from './requests/getRecords.js';
                 //for shapeType Cube, make a cube
                 case "Cube":
 
-                  //Choose a random color
-                  var randomColor = THREE.MathUtils.randInt(0, 0xffffff)
+                  // choose a random color
+                  var randomColor = THREE.MathUtils.randInt(0, 0xffffff);
 
-                  //TODO: Wireframe of cube
-                  var cubeGeometry = new THREE.BoxGeometry(null, null, null);
+                  // TODO: Wireframe of cube
+                  var cubeGeometry = new THREE.BoxGeometry(length, width, depth);
 
                   // TODO: Create a material for our cube
-                  const cubeMaterial = new THREE.MeshStandardMaterial({
-                    color: null,
+                  var cubeMaterial = new THREE.MeshStandardMaterial({
+                    color: randomColor,
                   });
 
                   // EXTRA CHALLENGE: Can you replace the cubeMaterial above with a PhongMaterial? (A shiny skin!)
@@ -120,7 +120,7 @@ import getRecords from './requests/getRecords.js';
                   });
 
                   //TODO: Combine them
-                  var cube = new THREE.Mesh(null, null);
+                  const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
                   //Position it semi-randomly (our camera is at a depth of 70, so less than that is best)
                   cube.position.x = Math.random() * 70 - 35;
@@ -141,15 +141,15 @@ import getRecords from './requests/getRecords.js';
                   //  * radius - Radius of the torus
                   //  * tube - Radius of the tube
                   //  * radialSegments - Default is 8
-                  const torusGeometry = new THREE.TorusGeometry(null, null, null, 100);
+                  var torusGeometry = new THREE.TorusGeometry(length, width, depth, 100);
 
                   //TODO: Create a flat color skin of a random color
                   const torusMaterial = new THREE.MeshStandardMaterial({
-                    color: null,
+                    color: randomColor,
                   });
 
                   //TODO: Combine them
-                  const torus = new THREE.Mesh(null, null);
+                  var torus = new THREE.Mesh(torusGeometry, torusMaterial);
 
                   //Position it semi-randomly
                   torus.position.x = Math.random() * 70 - 5;
@@ -167,7 +167,7 @@ import getRecords from './requests/getRecords.js';
         );
 
         // Animation Loop. Rotate the cube on the X and Y axis by 0.0X per frame.
-        var animate = function () {
+        const animate = function () {
           requestAnimationFrame(animate);
           //Go through our entire scene
           scene.traverse(function (node) {
@@ -192,7 +192,8 @@ import getRecords from './requests/getRecords.js';
         // Animate gets called by useEffect on page load.
         animate();
 
-        // Free up memory space when we change pages away <- A react best practice for "Single Page Apps"
+        // Free up memory space when we change pages away,
+        // a React best practice for Single-Page Apps.
         return () => mountRef.current.removeChild(renderer.domElement);
       }, []);
 
@@ -204,7 +205,8 @@ import getRecords from './requests/getRecords.js';
     }
 
     ReactDOM.render(
-      // React StrictMode activates additional checks useful for debugging. Ignored in production builds!
+      // React StrictMode activates additional checks useful for debugging.
+      // Ignored in production builds!
       <React.StrictMode >
         <App />
       </React.StrictMode>,
